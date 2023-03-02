@@ -1,0 +1,46 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+#issue--container {
+    max-height: 100vh;
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    background-color: #171717;
+    transition: background-color 0.25s ease-in-out;
+}
+
+.issue {
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    /* background-color: #654783; */
+    display: block;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.issue--cover {
+    max-width: 400px;
+    box-shadow: 1px -1px 62px 0px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 1px -1px 62px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 1px -1px 62px 0px rgba(0,0,0,0.5);
+}
+
+.issue--credit {
+    font-size: 1rem;
+    margin-top: 3rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.issue--credit > a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+}
+
