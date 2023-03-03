@@ -1,4 +1,5 @@
-import ColorThief from './color-thief.mjs'
+import ColorThief from './color-thief.mjs';
+import rgbToComplementary from './complementary.js';
 
 console.log("Script conectado");
 
@@ -9,13 +10,20 @@ function main() {
     // el color principal de una imagen/paletas de colores)
     // https://lokeshdhakar.com/projects/color-thief/
     const colorThief = new ColorThief();
+    const container = document.querySelector("#issue--container")
+
+    function formatRgbColor(array) {
+        const [r, g, b] = array;
+        return `rgb(${r}, ${g}, ${b})`;
+    }
 
     // Recibe un array rgb, le da formato y lo asigna al contenedor del issue
-    // (se podria separar en dos funciones)
     function setColor(target, array) {
-        const [r, g, b] = array;
-        const formattedColor = `rgb(${r}, ${g}, ${b})`;
-        target.parentElement.style = `background-color: ${formattedColor}`;
+        const newColor = formatRgbColor(array);
+        const newComplementary = formatRgbColor(rgbToComplementary(array));
+        console.log("Color complementario de", newColor, ":", newComplementary);
+        container.style = `background-color: ${newColor}`;
+        target.nextElementSibling.style = `background-color: ${newComplementary}`;
     }
 
     // Declaramos nuestro observer para determinar que issue esta
@@ -24,7 +32,8 @@ function main() {
     const observerOptions = {
         root: document.querySelector("#issue--container"),
         rootMargin: "0px",
-        threshold: 0.5
+        threshold: 0.5,
+        delay: 100
     }
 
     const ob = new IntersectionObserver(observerCallback, observerOptions);
@@ -32,29 +41,58 @@ function main() {
     function observerCallback(entries, observer) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                const img = entry.target.children[0]
+                // En primer lugar determinamos el color del fondo
+                const img = entry.target
+                const navLinks = document.querySelectorAll(".nav--link")
+
                 if (img.complete) {
-                        // Si la imagen esta cargada, tomar el color
+                    // Si la imagen esta cargada, tomar el color
+                    const newColorArray = colorThief.getColor(img);
+                    setColor(img, newColorArray);
+                    setTextColor(document.querySelector("body"), newColorArray);
+                    console.log("Seteando color en observer:", newColorArray)
+                } else {
+                    // Sino deja el eventListener para cuando termine
+                    img.addEventListener('load', function() {
                         const newColorArray = colorThief.getColor(img);
-                        setColor(entry.target, newColorArray);
+                        setColor(img, newColorArray);
+                        setTextColor(document.querySelector("body"), newColorArray);
                         console.log("Seteando color en observer:", newColorArray)
+                    });
+                }
+
+                // En segundo lugar resaltamos el link de la nav
+                navLinks.forEach(item => {
+                    const href = item.href.slice(item.href.indexOf("#") + 1);
+                    if (href === img.parentElement.parentElement.id) {
+                        item.classList.add("active")
                     } else {
-                        // Sino deja el eventListener para cuando termine
-                        img.addEventListener('load', function() {
-                            const newColorArray = colorThief.getColor(img);
-                            setColor(entry.target, newColorArray);
-                            console.log("Seteando color en observer:", newColorArray)
-                        });
+                        item.classList.remove("active")
                     }
+                })
             }
         })
-
+        
     }
 
     // Le aplicamos el observer a todos los issues
-    document.querySelectorAll(".issue").forEach((i) => {
+    document.querySelectorAll(".issue--cover").forEach((i) => {
         ob.observe(i)
     })
+
+
+    function setTextColor(target, array) {
+        // if (red*0.299 + green*0.587 + blue*0.114) > 186 use #000000 else use #ffffff
+        const logo = document.getElementById("logo");
+        logo.fill = "red";
+        if ((array[0] * 0.299 + array[1] * 0.587 + array[2] * 0.114) > 150) {
+            target.classList.add("black")
+            target.classList.remove("white")
+        } else {
+            target.classList.add("white")
+            target.classList.remove("black")
+        }
+    }
 }
 
 

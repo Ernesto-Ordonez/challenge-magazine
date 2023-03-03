@@ -5,20 +5,35 @@
     font-family: sans-serif;
 }
 
+html {
+    font-size: 16px;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: inherit;
+}
+
 #issue--container {
+    min-width: 375px;
     max-height: 100vh;
     overflow-y: scroll;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     background-color: #171717;
-    transition: background-color 0.25s ease-in-out;
+    transition: background-color 0.75s ease-in-out;
 }
 
 .issue {
     scroll-snap-align: start;
-    scroll-snap-stop: always;
-    /* background-color: #654783; */
-    display: block;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -34,13 +49,125 @@
 }
 
 .issue--credit {
-    font-size: 1rem;
-    margin-top: 3rem;
-    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    margin-top: 25px;
 }
 
-.issue--credit > a {
-    color: rgba(255, 255, 255, 0.9);
-    text-decoration: none;
+.img--wrapper {
+    position: relative;
 }
 
+.issue--insert {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: -40px;
+    right: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: blueviolet;
+    mask-image: url(./img/insert-bg.svg);
+    /* background-image: url(./img/insert-bg.svg); */
+    font-size: 0.6rem;
+    font-weight: bold;
+}
+
+#info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    scroll-snap-align: start;
+    transition: fill color 0.75s ease-in-out;
+    min-height: 100vh;
+    padding: 20px;
+} 
+
+#logo {
+    position: fixed;
+    width: 130px;
+    top: 30px;
+    left: 30px;
+    fill: inherit;
+}
+
+#info--body {
+    position: relative;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+#copyright {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    font-size: 0.9rem;
+    font-weight: lighter;
+}
+
+#policy--link {
+    text-decoration: underline;
+}
+
+.white {
+    color: rgb(255, 255, 255) !important;
+    fill: rgb(255, 255, 255) !important;
+}
+
+.black {
+    color:rgb(21, 21, 21) !important;
+    fill:rgb(21, 21, 21) !important;
+}
+
+.active {
+    font-weight: bold !important;
+}
+
+#navigation {
+    display: none;
+}
+
+@media (min-width: 1000px) {
+    .issue--insert {
+        right: -40px;
+        top: 40px;
+    }
+    
+    #info {
+        display: block;
+        padding: 0;
+        min-height: auto;
+    }
+    
+    #info--body {
+        position: fixed;
+        width: 240px;
+        bottom: 30px;
+        left: 30px;
+        font-size: 1.4rem;
+    }
+
+    #logo {
+        width: 200px;
+    }
+
+    #navigation {
+        display: flex;
+        font-size: 1.2rem;
+        flex-direction: column;
+        position: fixed;
+        right: 30px;
+        bottom: 30px;
+    }
+
+    #navigation > a {
+        margin-top: 10px;
+    }
+}
+
+@media (min-width: 1400px) {
+    #info--body {
+        width: 450px;
+        font-size: 1.7rem;
+    }
+}
