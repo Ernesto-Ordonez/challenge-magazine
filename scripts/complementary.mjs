@@ -1,4 +1,4 @@
-export default function rgbToComplementary(array) {
+function rgbToComplementary(array) {
     let [r, g, b] = array;
 
     // Convert RGB to HSL
@@ -67,3 +67,5 @@ export default function rgbToComplementary(array) {
     // rgb = b | (g << 8) | (r << 16); 
     // return "#" + (0x1000000 | rgb).toString(16).substring(1);
 }
+
+export {rgbToComplementary as default};
