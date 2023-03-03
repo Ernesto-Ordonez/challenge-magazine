@@ -1,5 +1,5 @@
 import ColorThief from './color-thief.mjs';
-import rgbToComplementary from './complementary.js';
+import rgbToComplementary from './complementary.mjs';
 
 console.log("Script conectado");
 
