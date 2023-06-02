@@ -7,6 +7,7 @@
 
 html {
     font-size: 16px;
+    isolation: isolate;
 }
 
 a {
@@ -42,10 +43,12 @@ a:visited {
 }
 
 .issue--cover {
-    max-width: 400px;
-    box-shadow: 1px -1px 62px 0px rgba(0,0,0,0.5);
-    -webkit-box-shadow: 1px -1px 62px 0px rgba(0,0,0,0.5);
-    -moz-box-shadow: 1px -1px 62px 0px rgba(0,0,0,0.5);
+    display: block;
+    width: 100%;
+    height: auto;
+    box-shadow: 1px -1px 62px 0px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 1px -1px 62px 0px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: 1px -1px 62px 0px rgba(0, 0, 0, 0.5);
 }
 
 .issue--credit {
@@ -55,22 +58,39 @@ a:visited {
 
 .img--wrapper {
     position: relative;
+    max-width: min(400px, 100%);
+    height: auto;
 }
 
 .issue--insert {
+    --fill-color: gray;
+
     position: absolute;
     width: 80px;
     height: 80px;
     top: -40px;
-    right: 160px;
-    display: flex;
+    right: 0;
+    left: 0;
+    margin: 0 auto;
     justify-content: center;
     align-items: center;
-    background-color: blueviolet;
-    mask-image: url(./img/insert-bg.svg);
-    /* background-image: url(./img/insert-bg.svg); */
     font-size: 0.6rem;
     font-weight: bold;
+}
+
+.issue--insert span {
+    position: absolute;
+    height: max-content;
+    width: max-content;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.issue--insert-bg path {
+    fill: var(--fill-color);
 }
 
 #info {
@@ -82,7 +102,7 @@ a:visited {
     transition: fill color 0.75s ease-in-out;
     min-height: 100vh;
     padding: 20px;
-} 
+}
 
 #logo {
     position: fixed;
@@ -115,8 +135,8 @@ a:visited {
 }
 
 .black {
-    color:rgb(21, 21, 21) !important;
-    fill:rgb(21, 21, 21) !important;
+    color: rgb(21, 21, 21) !important;
+    fill: rgb(21, 21, 21) !important;
 }
 
 .active {
@@ -131,14 +151,15 @@ a:visited {
     .issue--insert {
         right: -40px;
         top: 40px;
+        left: revert;
     }
-    
+
     #info {
         display: block;
         padding: 0;
         min-height: auto;
     }
-    
+
     #info--body {
         position: fixed;
         width: 240px;
@@ -160,7 +181,7 @@ a:visited {
         bottom: 30px;
     }
 
-    #navigation > a {
+    #navigation>a {
         margin-top: 10px;
     }
 }
